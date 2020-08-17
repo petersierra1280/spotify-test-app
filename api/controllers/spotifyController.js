@@ -1,5 +1,6 @@
 const albumsArtistLib = require('../libs/albumsArtistLib');
 const authLib = require('../libs/authLib');
+const tokensLib = require('../libs/tokensLib');
 
 async function postAuth(req, res, next) {
   try {
@@ -12,8 +13,7 @@ async function postAuth(req, res, next) {
 async function getAlbumsByArtist(req, res, next) {
   const { artistId } = req.params;
   try {
-    const bearerToken =
-      'BQCG1tnJ3X1zLai6Hr4n4Ldndvenf6VxQf20r1z5NLB4DRuNsFjrdBaYIrLUMNBwlhhDR1LbaDE35c7ctPs';
+    const bearerToken = await tokensLib.getLastToken();
     const data = await albumsArtistLib.albumsByArtist(artistId, bearerToken);
     return res.status(200).send(data);
   } catch (error) {
