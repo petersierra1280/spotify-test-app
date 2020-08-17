@@ -1,12 +1,8 @@
 require('dotenv').config();
-const express = require('express');
-const app = express();
-const { PORT: port = 3000 } = process.env;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const { PORT: port = 3000 } = process.env;
+const app = require('./app');
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`API running at http://localhost:${port}`);
 });
