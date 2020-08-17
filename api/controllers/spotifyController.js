@@ -4,8 +4,8 @@ const tokensLib = require('../libs/tokensLib');
 
 async function postAuth(req, res, next) {
   try {
-    const authInfo = await authLib.getToken();
-    return res.status(200).send(authInfo);
+    const token = await authLib.getToken();
+    return res.status(200).send({ token });
   } catch (error) {
     return next(error);
   }
@@ -17,7 +17,19 @@ async function getAlbumsByArtist(req, res, next) {
     const data = await albumsArtistLib.albumsByArtist(artistId, bearerToken);
     return res.status(200).send(data);
   } catch (error) {
-    return next(error);
+    const { response = {} } = error;
+    const { status } = response;
+    if (status && status === 401) {
+      try {
+        const newToken = await authLib.getToken();
+        const data = await albumsArtistLib.albumsByArtist(artistId, newToken);
+        return res.status(200).send(data);
+      } catch (newError) {
+        return next(NewError);
+      }
+    } else {
+      return next(error);
+    }
   }
 }
 

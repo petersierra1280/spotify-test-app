@@ -11,4 +11,14 @@ const getLastToken = async () => {
   }
 };
 
-module.exports = { getLastToken };
+const extractTokenFromResponse = response => {
+  if (response) {
+    const { data } = response;
+    const { access_token: token } = data;
+    return token;
+  } else {
+    return null;
+  }
+};
+
+module.exports = { getLastToken, extractTokenFromResponse, Token };

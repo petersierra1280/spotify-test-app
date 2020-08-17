@@ -1,6 +1,6 @@
 const axios = require('axios');
 const qs = require('qs');
-const Token = require('../models/tokens');
+const { Token, extractTokenFromResponse } = require('../libs/tokensLib');
 
 const getToken = async () => {
   const { SPOTIFY_ACCOUNTS_URL, APP_TOKEN } = process.env;
@@ -15,14 +15,13 @@ const getToken = async () => {
       grant_type: 'client_credentials'
     })
   });
-  const { data } = response;
-  const { access_token: token } = data;
+  const token = extractTokenFromResponse(response);
   const accessToken = new Token({
     token,
     dateAdded: new Date()
   });
   accessToken.save();
-  return data;
+  return token;
 };
 
 module.exports = { getToken };
