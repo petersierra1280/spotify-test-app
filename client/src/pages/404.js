@@ -9,9 +9,12 @@ class NotFoundPage extends React.Component {
 
     return (
       <DefaultLayout>
-        <SEO title="404: Not Found" />
-        <h1>That page doesn&#39;t exist.</h1>
-        <br />
+        <div className="clearfix post-content-box">
+          <SEO title="404: Not Found" />
+          <h1>That page doesn&#39;t exist.</h1>
+          <br />
+          :)
+        </div>
       </DefaultLayout>
     )
   }
